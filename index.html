@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+  <p style="max-width: 400px">Just threw this together quickly so I could easily use it to generate NPCs. All based of the amazing random character creator by <a href="https://alyssalostinspace.com/2022/01/14/character-creation-tables/">ALYSSA LOST IN SPACE</a>. All I did was some dumb code. Age, Race, Alignment, Hair Feature, Hair Color, Hair Length, and Eye Color are all weighted by more common and rarer traits and all others are completely random.</p>
+  <p><button>Generate</button></p>
+
+  <div class="characters">
+
+  </div>
+
+<script>
+
+// Weighted towards center
+const weighted = {age:[5, 10, 15, 20, 25, 30, 30, 30, 30, 30, 30, 35, 40, 45, 50, 55, 60, 65, 70],
+race:["Bugbear","Centaur","Goblin","Grung","Orc","Aarakocra", "Firbolg", "Aasimar", "Genasi", "Kenku", "Tortle",'Dragonborn', 'Dwarf', 'Elf', 'Gnome', 'Tiefling', 'Halfling', 'Orc', 'Half-Orc', 'Half-Elf', 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human","Half-Elf","Half-Orc","Orc","Halfling","Tiefling","Gnome","Elf","Dwarf","Dragonborn","Tabaxi","Harengon","Triton","Locathah","Verdan","Goliath","Kobold","Hobgoblin","Minotaur","Lizardfolk","Yuan-Ti"],
+alignment:["Lawful Good","Neutral Good","Chaotic Good","Lawful Neutral","True Neutral","Chaotic Neutral","Lawful Evil","Neutral Evil","Chaotic Evil"],
+hairFeature:["Dyed","Bangs","Greying","Balding/Patchy","Damaged","Unkempt","Unkempt","Normal","Normal","Normal","Normal","Normal","Normal","Unkempt","Unkempt","Thinning","Pulled back","Styled","Partly Shaven","Uneven","Wig"],
+hairColor:["Ombre","Pink","Lavender","Dark Blue",'White', 'Salt & Pepper', 'Gray', 'Flaxen', 'Golden Blonde', 'Dark Blonde', 'Ginger', 'Auburn', 'Light Brown', 'Chestnut Brown', 'Dark Brown', 'Black', "Black","Dark Brown","Chestnut Brown","Light Brown","Auburn","Ginger","Dark Blonde","Golden Blonde","Flaxen","Gray","Salt & Pepper","White","Olive Green","Deep Red","Pale Blue","Purple"],
+hairLength:['Thigh-length +', 'Shaved', 'Pulled Up', 'Braided', 'Pulled Back', 'Hip Length', 'Mid-back', 'Shoulder Length', 'Short', 'Very Short', "Very Short","Short","Shoulder Length","Mid-back","Hip Length","Pulled Back","Braided","Pulled Up","Shaved","Thigh-length +"],
+eyeColor:["Red", "Pale Pink", "Silver", "Lavender",'Black', 'Amber', 'Green', 'Blue-green', 'Blue-Gray', 'Hazel', 'Light Brown', 'Chestnut Brown', 'Dark Brown',"Dark Brown","Chestnut Brown","Light Brown","Hazel","Blue-Gray","Blue-green","Green","Amber","Black","Vivid Green", "Golden Yellow", "Fuschia", "Cyan"]}
+
+// Normal
+const normal = {motivation:["Survival","Love","Honor","Control","Save","Serve","Rule","Destroy","Grief","Betrayal","Fear","Escape","Revenge","Recover","Justice","Desire","Discover","Achieve","Hate","Ambition"],
+classType:["Barbarian","Bard","Cleric","Druid","Fighter","Monk","Paladin","Ranger","Rogue","Sorcerer","Warlock","Wizard"],
+archetype:["The Hero","The Alchemist","The Lover","The Jester","The Everyperson","The Innocent","The Sage","The Explorer","The Caregiver","The Creator","The Ruler","The Rebel", "The Fool"],
+stats:["Strength","Dexterity","Constitution","Wisdom","Intelligence","Charisma"],
+sign:["Aquarius","Pisces","Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Saggittarius","Capricorn"],
+hairType:["Thick","Curly","Fine","Straight","Full","Glossy","Dull","Frizzy","Silky","Wavy","Bouncy","Flat"],
+visualFeature:["Multiple Piercings","Heterochromia","Tattoos","Birthmark","Freckles","Dimples","Scars","Burn mark","Callouses","Painted Nails","Heavy Makeup","Light Makeup"],
+additionalDetails:["Smoking","Loud voice","Playing with hair","Excessive drinking","Has an accent","Vision problems","Lip biting","Gambling addiction","Tendency to cheat","Has a stutter","Knuckle cracking","Tendency to lie","Nail biting","Excessive swearing","A sweet tooth","Difficulty with hearing","Likes to eat","Sings/whistles","Uses third person","Soft voice"],
+meyersBriggs:["ISTJ","ISFJ","INFJ","INTJ", "ISTP","ISFP","INFP","INTP","ESTP","ESFP","ENFP","ENTP ESTJ","ESFJ","ENFJ","ENTJ"],
+proficiency:["Acrobatics","Animal Handling","Stealth","Survival","Athletics","Intimidation","Deception","Persuasion","History","Insight","Arcana","Investigation ","Medicine","Nature","Perception ","Religion"],
+profession:["Farmer","Armourer","Butcher","Blacksmith","Barber","Weaver","Miller","Baker","Porter","Thatcher","Mason","Carpenter","Peddler","Fisherman","miner","Tanner","Brewer","Barkeep","Candlemaker","Merchant","Priest","Town Crier","Scribe","Sailor","Stablemaster","Tailor","Bookbinder","Cook","Cartographer","Knight","Solider","Innkeeper","Bounty Hunter","Smuggler","Gravedigger","Courier","Gardener","Confectioner","Thief","Enchanter","Assassin","Minstrel","Hunter","Guard","Carriage Driver","Dressmaker","Alchemist","Pirate","Painter","Logger","Midwife","Jeweller","Fletcher","Locksmith ","Haberdasher ","Doctor","Shipwright","Stablehand ","Saddler","Footman ","Servant","Spy","Landlord","Prostitute","Healer","Undertaker","Mage","Detective","Gambler","Entertainer","Trader","Shoemaker","Monk","Fortuneteller ","Harbormaster ","Mercenary","Scholar","Acolyte","Bandit","Aristocrat","Engineer","Accountant","Cobbler","Witch","Leatherworker ","Judge","Builder","Clerk","Courtesan","Jailer","Lamplighter ","Minister","Navigator","Scout","Banker","Necromancer ","Steward","Gladiator","Librarian","Astrologer"],
+firstTrait:["Kind","Rude","Humble","Arrogant","Gentle","Cruel","Polite","Blunt","Outgoing","Reserved","Cheerful","Brooding","Sensitive","Callous","Easygoing","Aggressive","Energetic","Quiet","Patient","Rash"],
+secondTrait:["Open-Minded", "Prejudice", "Creative", "Cunning", "Decisive", "Indecisive", "Wise", "Naive", "Sincere", "Sarcastic", "Orderly", "Messy", "Hardworking", "Lazy", "Mature", "Immature", "Modest", "Vain", "Persistent", "Meek"],
+thirdTrait:["Loyal","Two-Faced","Brave","Cowardly","Honest","Liar","Generous","Selfish","Diligent","Careless","Responsible","Unreliable","Shy","Impulsive","Attentive","Reckless","Frugal","Extravagant","Mischievous","Obedient"],
+fourthTrait:["Intelligent","Ignorant","Assertive","Hesitant","Spoiled","Cautious","Reasonable","Stubborn","Emotional","Apathetic","Funny","Serious","Charming","Moody","Independent","Dependent","Determined","Petty","Pious","Paranoid"]}
+
+  let results = {};
+
+function createCharacter () {
+  results = {};
+  getWeighted();
+  getNormal();
+  generateStringHtml();
+}
+
+document.querySelector("button").addEventListener('click', createCharacter, true)
+
+function generateStringHtml () {
+  let string = '';
+  for (const key in results) {
+    string += `<div>${camelToFlat(key)}: ${results[key]}</div>`
+  }
+  
+  document.querySelector('.characters').innerHTML = string;
+}
+
+
+function getNormal () {
+  for (const key in normal) {
+    results[key] = normal[key][Math.floor(Math.random()*normal[key].length)]
+  }
+  return results;
+}
+
+function getWeighted () {
+  for (const key in weighted) {
+    results[key] = getWeightValued(weighted[key])
+  }
+  return results;
+}
+
+function getWeightValued (arr) {
+  const diceNum = Math.ceil(arr.length/2);
+  const roll = getRandomIntInclusive(0, diceNum) + getRandomIntInclusive(0, diceNum);
+  return arr[roll] ? arr[roll] : arr[arr.length - 1]
+}
+  
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
+}
+
+function camelToFlat (camel) {
+    const camelCase =camel.replace(/([a-z])([A-Z])/g, '$1 $2').split(" ")
+
+    let flat =""
+
+    camelCase.forEach(word=>{    
+        flat = flat + word.charAt(0).toUpperCase() + word.slice(1) + " "
+    })  
+    return flat
+}
+</script>
+</body>
+</html>
