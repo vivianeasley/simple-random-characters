@@ -2,21 +2,55 @@
 <html>
 <head>
 <meta charset="UTF-8" />
+<title>Random Characters</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+.characters {
+  text-align: center;
+  font-size: 18px;
+}
+
+.character-card {
+  border-radius: 8px;
+    background-color: #f1f1f1;
+    display: inline-block;
+    vertical-align: top;
+    width: 300px;
+    padding: 20px;
+    border: 1px solid grey;
+    margin: 10px;
+    text-align: left;
+}
+
+.bold {
+  font-weight: bold;
+  color: #3a3a95;
+}
+  
+</style>
+
 </head>
 <body>
-  <p style="max-width: 400px">Just threw this together quickly so I could easily use it to generate NPCs. All based of the amazing random character creator by <a href="https://alyssalostinspace.com/2022/01/14/character-creation-tables/">ALYSSA LOST IN SPACE</a>. All I did was some dumb code. Age, Race, Alignment, Hair Feature, Hair Color, Hair Length, and Eye Color are all weighted by more common and rarer traits and all others are completely random.</p>
+  <p style="max-width: 500px">Just threw this together quickly so I could easily use it to generate NPCs. All based of the amazing random character creator by <a href="https://alyssalostinspace.com/2022/01/14/character-creation-tables/">ALYSSA LOST IN SPACE</a>. I added a name generator of my own from another project. Age, Race, Alignment, Hair Feature, Hair Color, Hair Length, and Eye Color are all weighted by more common to rarer traits and all others are completely random.</p>
   <p><button>Generate</button></p>
 
   <div class="characters">
 
   </div>
-
+<script src="./human-female-first-names.js"></script>
+<script src="./human-last-names.js"></script>
+<script src="./human-male-first-names.js"></script>
 <script>
 
 // Weighted towards center
-const weighted = {age:[5, 10, 15, 20, 25, 30, 30, 30, 30, 30, 30, 35, 40, 45, 50, 55, 60, 65, 70],
-race:["Bugbear","Centaur","Goblin","Grung","Orc","Aarakocra", "Firbolg", "Aasimar", "Genasi", "Kenku", "Tortle",'Dragonborn', 'Dwarf', 'Elf', 'Gnome', 'Tiefling', 'Halfling', 'Orc', 'Half-Orc', 'Half-Elf', 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human","Half-Elf","Half-Orc","Orc","Halfling","Tiefling","Gnome","Elf","Dwarf","Dragonborn","Tabaxi","Harengon","Triton","Locathah","Verdan","Goliath","Kobold","Hobgoblin","Minotaur","Lizardfolk","Yuan-Ti"],
-alignment:["Lawful Good","Neutral Good","Chaotic Good","Lawful Neutral","True Neutral","Chaotic Neutral","Lawful Evil","Neutral Evil","Chaotic Evil"],
+const weighted = {age:[5, 10, 15,15,15, 20,20,20,20, 25,25,25,25,25, 30, 30, 30, 30, 30, 30, 35, 40,40,40, 40, 40,50, 55, 60, 65, 70],
+race:["Bugbear","Centaur","Goblin","Grung","Orc","Aarakocra", "Firbolg", "Aasimar", "Genasi", "Kenku", "Tortle",'Dragonborn', 'Dwarf', 'Elf', 'Gnome', 'Tiefling', 'Halfling', 'Orc', 'Half-Orc', 'Half-Elf','Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human",'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human",'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human", 'Human',"Human","Half-Elf","Half-Orc","Orc","Halfling","Tiefling","Gnome","Elf","Dwarf","Dragonborn","Tabaxi","Harengon","Triton","Locathah","Verdan","Goliath","Kobold","Hobgoblin","Minotaur","Lizardfolk","Yuan-Ti"],
+alignment:["Lawful Good","Neutral Good","Chaotic Good","Lawful Neutral","True Neutral","True Neutral","True Neutral","True Neutral","True Neutral","True Neutral","Chaotic Neutral","Lawful Evil","Neutral Evil","Chaotic Evil"],
 hairFeature:["Dyed","Bangs","Greying","Balding/Patchy","Damaged","Unkempt","Unkempt","Normal","Normal","Normal","Normal","Normal","Normal","Unkempt","Unkempt","Thinning","Pulled back","Styled","Partly Shaven","Uneven","Wig"],
 hairColor:["Ombre","Pink","Lavender","Dark Blue",'White', 'Salt & Pepper', 'Gray', 'Flaxen', 'Golden Blonde', 'Dark Blonde', 'Ginger', 'Auburn', 'Light Brown', 'Chestnut Brown', 'Dark Brown', 'Black', "Black","Dark Brown","Chestnut Brown","Light Brown","Auburn","Ginger","Dark Blonde","Golden Blonde","Flaxen","Gray","Salt & Pepper","White","Olive Green","Deep Red","Pale Blue","Purple"],
 hairLength:['Thigh-length +', 'Shaved', 'Pulled Up', 'Braided', 'Pulled Back', 'Hip Length', 'Mid-back', 'Shoulder Length', 'Short', 'Very Short', "Very Short","Short","Shoulder Length","Mid-back","Hip Length","Pulled Back","Braided","Pulled Up","Shaved","Thigh-length +"],
@@ -26,7 +60,7 @@ eyeColor:["Red", "Pale Pink", "Silver", "Lavender",'Black', 'Amber', 'Green', 'B
 const normal = {motivation:["Survival","Love","Honor","Control","Save","Serve","Rule","Destroy","Grief","Betrayal","Fear","Escape","Revenge","Recover","Justice","Desire","Discover","Achieve","Hate","Ambition"],
 classType:["Barbarian","Bard","Cleric","Druid","Fighter","Monk","Paladin","Ranger","Rogue","Sorcerer","Warlock","Wizard"],
 archetype:["The Hero","The Alchemist","The Lover","The Jester","The Everyperson","The Innocent","The Sage","The Explorer","The Caregiver","The Creator","The Ruler","The Rebel", "The Fool"],
-stats:["Strength","Dexterity","Constitution","Wisdom","Intelligence","Charisma"],
+statsBestToWorst:["Strength","Dexterity","Constitution","Wisdom","Intelligence","Charisma"],
 sign:["Aquarius","Pisces","Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Saggittarius","Capricorn"],
 hairType:["Thick","Curly","Fine","Straight","Full","Glossy","Dull","Frizzy","Silky","Wavy","Bouncy","Flat"],
 visualFeature:["Multiple Piercings","Heterochromia","Tattoos","Birthmark","Freckles","Dimples","Scars","Burn mark","Callouses","Painted Nails","Heavy Makeup","Light Makeup"],
@@ -43,6 +77,7 @@ fourthTrait:["Intelligent","Ignorant","Assertive","Hesitant","Spoiled","Cautious
 
 function createCharacter () {
   results = {};
+  results.name = getName();
   getWeighted();
   getNormal();
   generateStringHtml();
@@ -53,16 +88,41 @@ document.querySelector("button").addEventListener('click', createCharacter, true
 function generateStringHtml () {
   let string = '';
   for (const key in results) {
-    string += `<div>${camelToFlat(key)}: ${results[key]}</div>`
+    if (key === 'name') {
+      string += `<details open><summary>${results[key]}</summary>`;
+    } else {
+      string += `<div>${camelToFlat(key)}: <span class="bold">${results[key]}</span></div>`
+    }
+    
   }
-  
-  document.querySelector('.characters').innerHTML = string;
+  string += '</details>';
+
+  const node = document.createElement('div');
+  node.classList.add('character-card');
+  node.innerHTML = string;
+  document.querySelector('.characters').appendChild(node);
+}
+
+function getName () {
+  const lastName = humanNamesArray[Math.floor(Math.random()*humanNamesArray.length)]
+  if (Math.random() <= 0.5) {
+    return `${humanFemaleFirstNamesArray[Math.floor(Math.random()*humanFemaleFirstNamesArray.length)]} ${lastName}`;
+
+  } else {
+    return `${humanMaleFirstNamesArray[Math.floor(Math.random()*humanMaleFirstNamesArray.length)]} ${lastName}`;
+    
+  }
 }
 
 
 function getNormal () {
   for (const key in normal) {
-    results[key] = normal[key][Math.floor(Math.random()*normal[key].length)]
+    if (key === 'statsBestToWorst') {
+      results[key] = shuffle(normal[key]).join(", ");
+    } else {
+      results[key] = normal[key][Math.floor(Math.random()*normal[key].length)]
+    }
+    
   }
   return results;
 }
@@ -95,6 +155,24 @@ function camelToFlat (camel) {
         flat = flat + word.charAt(0).toUpperCase() + word.slice(1) + " "
     })  
     return flat
+}
+
+function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
 }
 </script>
 </body>
